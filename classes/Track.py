@@ -6,8 +6,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 
-from Node import Node
-from Segment import Segment
+from .Node import Node
+from .Segment import Segment
 
 class Track:
     attributes = {}
@@ -23,8 +23,14 @@ class Track:
         self.attributes = xml_root.attrib
         self.stats = {element.tag: element.text for element in xml_root.find("metrics").iter() if element.text.strip()}
 
+    def parse_node_csv(self, nodes_csv: str) -> None:
+        pass
+
+    def parse_segment_csv(self, segment_csv: str) -> None:
+        pass
+
     @classmethod
-    def from_skiz_file(cls: Track, skiz_path: str) -> Track:
+    def from_skiz_file(cls, skiz_path: str):
         with ZipFile(skiz_path) as skiz:
             track_xml = skiz.read("Track.xml").decode("utf8")
             nodes_csv = skiz.read("Nodes.csv").decode("utf8")
